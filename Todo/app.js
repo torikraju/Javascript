@@ -10,7 +10,8 @@ function loadEventListners() {
 
     form.addEventListener('submit', addTask);
     tasks.addEventListener('click', removeTask);
-    clearTasks.addEventListener('click',removeTasks);
+    clearTasks.addEventListener('click', removeTasks);
+    filter.addEventListener('keyup', filterTask);
 
 }
 
@@ -25,10 +26,10 @@ function addTask(e) {
     e.preventDefault();
 }
 
-function createLi(taskvalue) {
+function createLi(taskValue) {
     const li = document.createElement('li');
     li.className = 'collection-item';
-    li.appendChild(document.createTextNode(taskvalue));
+    li.appendChild(document.createTextNode(taskValue));
     const link = document.createElement('a');
     link.className = 'delete-item secondary-content';
     link.innerHTML = '<i class="fa fa-remove"></i>';
@@ -46,5 +47,17 @@ function removeTasks() {
     while (tasks.firstChild) {
         tasks.removeChild(tasks.firstChild);
     }
+}
+
+function filterTask(e) {
+    const text = e.target.value.toLowerCase();
+
+    document.querySelectorAll('.collection-item').forEach(
+        function (task) {
+            const item = task.firstChild.textContent;
+            (item.toLowerCase().indexOf(text) != -1) ? task.style.display = 'block' : task.style.display = 'none';
+        }
+    );
+
 }
 
